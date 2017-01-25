@@ -1,0 +1,29 @@
+<div *ngIf="card">
+	<div class="row">
+		<div class="col-md-3 col-md-offset-1">
+  			<h2>{{card.title}} details!</h2>
+  		</div>
+  	</div>
+  	<div class="row">
+  		<div class="col-md-3 col-md-offset-1">
+    		<label>ID: </label>{{card.id}}
+    	</div>
+    </div>
+  	<div class="row">
+  		<div class="col-md-3 col-md-offset-1">
+    		<label>Title: </label>
+    		<input [(ngModel)]="card.title">
+   		</div>
+   	</div>
+   	<div class="row">
+  		<div class="col-md-3 col-md-offset-1">
+	    	<label>Type: </label>
+	    	<input [(ngModel)]="card.type">
+	    </div>
+   	</div>
+   	<div class="row">
+  		<div class="col-md-3 col-md-offset-2">
+  			<button class="btn btn-primary" (click)="save()">Save</button>
+  		</div>
+  	</div>
+</div>

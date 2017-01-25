@@ -1,0 +1,5 @@
+/* You can add global styles to this file, and also import other style files */
+control-messages div {
+  color: #E82C0C;
+  margin: 6px 0;
+}

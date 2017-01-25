@@ -1,0 +1,93 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+body{
+	background-color: #FFFBF3;
+	font-size: 15px;
+}
+.postscontainer:nth-child(2n+1){
+	clear:both;
+}
+.container1{
+	padding:30px;
+	margin-top: 40px;
+	border:1px dotted;
+	background-color: #D2D2D4;
+}
+.container1 h1{
+	text-align: center;
+	color:#00415F;
+}
+.posts{
+	background-color: white;
+	border:1px solid grey;
+	margin-top: 50px;
+	padding:15px;
+}
+.posts h2{
+	text-align: center;
+}
+.posts p{
+	text-indent: 25px;
+	text-align: justify;
+}
+.post{
+	background-color: #DFEDED;
+	border:1px solid grey;
+	margin: 50px auto;
+	padding:20px;
+}
+.post h1{
+	text-align: center;
+}
+.post .postcontent{
+	text-indent: 25px;
+	text-align: justify;
+}
+.post p{
+	text-align: right;
+}
+.post p span{
+	font-style: italic;
+	color:grey;
+}
+.editbtn{
+	text-align: center;
+}
+.nav-pills>li.active>a{
+	background-color: #BEBEBE;
+}
+.img{
+	text-align: center;
+	margin-bottom: 15px;
+}
+#edit_img{
+	text-align: left;
+	margin-top: 10px;
+}
+#delete_image{
+	margin: 15px 0;
+}
+.user_settings .personal_info{
+	font-weight: 900;
+	font-style: italic;
+	font-size: 16px;
+	margin-right: 10px;
+}
+.container2{
+	padding:10px 100px;
+}
+.container3{
+	width:460px;
+	margin:10px auto;
+	padding-right: 100px;
+}
+.home{
+	text-align: center;
+	font-size: 18px;
+	font-weight: 900;
+}
+.container4{
+	text-align: justify;
+}

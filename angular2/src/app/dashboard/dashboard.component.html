@@ -1,0 +1,46 @@
+<div>
+	<div class="row">
+		<div class="col-md-3 col-md-offset-1">
+			<h2>Add new card</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-md-offset-1">
+	 		<label>Card Title:</label> <input type="text" class="form-control" name="title" [(ngModel)]="model.title" #title="ngModel" required>
+	 	</div>
+ 	</div>
+ 	<div class="row">
+	 	<div class="col-md-3 col-md-offset-1">
+	 		<label>Card Type:</label> <input type="text" class="form-control" name="type" [(ngModel)]="model.type" #type="ngModel" required>
+	 	</div>
+ 	</div>
+ 	<div class="row">
+	 	<div class="col-md-3 col-md-offset-1">
+	 		<label>Card Date:</label> <input type="text" class="form-control" name="date" [(ngModel)]="model.date" #date="ngModel" required>
+	 	</div>
+ 	</div>
+ 	<div class="row">
+	 	<div class="col-md-3 col-md-offset-2">
+		  	<button class="btn btn-primary" (click)="add()">
+		    	Add
+		  	</button>
+  		</div>
+  	</div>
+</div>
+<!-- <button  class="btn btn-primary" (click)='getCards()'>All cards</button> -->
+<ol>
+<div class="row">
+	<div class="col-md-3 col-md-offset-1">
+		<h2>All cards</h2>
+	</div>
+</div>
+  <li *ngFor="let card of cards">
+    <span><b><i>Card ID:</i></b> {{card.id}},</span>
+    <span><b><i>Card Title:</i></b> {{card.title}},</span>
+    <span><b><i>Card Date:</i></b> {{card.date}},</span>
+    <span><b><i>Card Type:</i></b> {{card.type}}</span>
+    <button class="btn btn-danger" (click)="delete(card)">x</button>
+    <button class="btn btn-info" (click)="edit(card)"><a routerLink="../cards/{{card.id}}"> Edit </a></button>
+  </li>
+</ol>
+<p><button (click)="logout()" ><a [routerLink]="['/login']">Logout</a></button></p>
