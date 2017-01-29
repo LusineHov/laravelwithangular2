@@ -11,12 +11,12 @@
  	</div>
  	<div class="row">
 	 	<div class="col-md-3 col-md-offset-1">
-	 		<label>Card Type:</label> <input type="text" class="form-control" name="type" [(ngModel)]="model.type" #type="ngModel" required>
+	 		<label>Card Content:</label> <input type="text" class="form-control" name="type" [(ngModel)]="model.content" #type="ngModel" required>
 	 	</div>
  	</div>
  	<div class="row">
 	 	<div class="col-md-3 col-md-offset-1">
-	 		<label>Card Date:</label> <input type="text" class="form-control" name="date" [(ngModel)]="model.date" #date="ngModel" required>
+	 		<label>Card Type:</label> <input type="text" class="form-control" name="date" [(ngModel)]="model.category_id" #date="ngModel" required>
 	 	</div>
  	</div>
  	<div class="row">
@@ -37,8 +37,8 @@
   <li *ngFor="let card of cards">
     <span><b><i>Card ID:</i></b> {{card.id}},</span>
     <span><b><i>Card Title:</i></b> {{card.title}},</span>
-    <span><b><i>Card Date:</i></b> {{card.date}},</span>
-    <span><b><i>Card Type:</i></b> {{card.type}}</span>
+    <span><b><i>Card Content:</i></b> {{card.content}},</span>
+    <span><b><i>Card Type:</i></b> {{card.category_id}}</span>
     <button class="btn btn-danger" (click)="delete(card)">x</button>
     <button class="btn btn-info" (click)="edit(card)"><a routerLink="../cards/{{card.id}}"> Edit </a></button>
   </li>

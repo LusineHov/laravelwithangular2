@@ -46,7 +46,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
+    // InMemoryWebApiModule.forRoot(InMemoryDataService, {passThruUnknownUrl: true})
   ],
   providers: [ AuthGuard,
         AuthenticationService,

@@ -19,13 +19,13 @@ export class DashboardComponent implements OnInit {
   	ngOnInit() {
   		this.cardService
 	        .getAll()
-	        .then(cards => this.cards = cards);
+	        .subscribe(
+                data => {
+                    this.cards = data
+                },
+                error => {
+                });
   	}
-  	getCards(): void {
-	    this.cardService
-	        .getAll()
-	        .then(cards => this.cards = cards);
-	}
 
 	delete(card: Card): void {
 		if(localStorage.getItem("currentUser") == `"${card.user_id}"`){
@@ -39,11 +39,16 @@ export class DashboardComponent implements OnInit {
   	}
 
   	add(): void {
-  		this.model.user_id = parseInt(localStorage.getItem("currentUser").slice(1));
+  		// this.model.user_id = parseInt(localStorage.getItem("currentUser").slice(1));
+  		console.log(this.model)
 	    this.cardService.create(this.model)
-	      .then(card => {
-	        this.cards.push(card);
-	    });
+	      .subscribe(
+	      	data => {
+	      		console.log(data)
+	      	},
+	      	error => {
+	      		console.log(error)
+	      	});
 	}
 
 }

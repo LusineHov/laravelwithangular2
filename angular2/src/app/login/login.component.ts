@@ -20,10 +20,10 @@ export class LoginComponent implements OnInit {
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService) {
-            let username = new FormControl('', Validators.required);
+            let email = new FormControl('', Validators.required);
             let password = new FormControl('', [Validators.required, Validators.minLength(6)]);
             this.loginForm = new FormGroup({
-              username: username,
+              email: email,
               password: password
             });
         }
@@ -35,16 +35,17 @@ export class LoginComponent implements OnInit {
 
     login() {
         if (this.loginForm.dirty && this.loginForm.valid) {
-            this.authenticationService.login(this.loginForm.value.username, this.loginForm.value.password)
+            this.authenticationService.login(this.loginForm.value.email, this.loginForm.value.password)
                 .subscribe(
                     data => {
-                    	if (localStorage.getItem("currentUser") !== null) {
-                        	this.router.navigate([this.returnUrl]);
-    					}
+                        console.log(data)
+                        if (localStorage.getItem("currentUser") !== null) {
+                            this.router.navigate([this.returnUrl]);
+                        }
                     },
                     error => {
                     });
-            }
+        }
     }
 }
 

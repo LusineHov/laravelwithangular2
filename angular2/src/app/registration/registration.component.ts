@@ -16,7 +16,7 @@ import { CustomValidators } from 'ng2-validation';
 })
 
 export class RegistrationComponent {
-	users: Array<User> = [];
+	// users: Array<User> = [];
 	// registerForm: any;
 	registerForm: FormGroup;
 
@@ -31,25 +31,39 @@ export class RegistrationComponent {
 
     constructor(private router: Router,
     	private userService: UserService) {
-    	let username = new FormControl('', Validators.required);
+    	let name = new FormControl('', Validators.required);
+    	let email = new FormControl('', Validators.required);
     	let password = new FormControl('', [Validators.required, Validators.minLength(6)]);
-		let certainPassword = new FormControl('', [Validators.required, CustomValidators.equalTo(password)]);
+		let password_confirmation = new FormControl('', [Validators.required, CustomValidators.equalTo(password)]);
 
 		this.registerForm = new FormGroup({
-		  username: username,
+		  name: name,
+		  email: email,
 		  password: password,
-		  certainPassword: certainPassword
+		  password_confirmation: password_confirmation
 		});
 	}
 
-    register(): void {
-    	if (this.registerForm.dirty && this.registerForm.valid) {
-		  	this.userService.create(this.registerForm.value)
-		    .then(user => {
-		    	this.router.navigate(['/login']);
-		      	// this.users.push(user);
-		    });
-		  	// console.log(this.userService.getAll())
-		}
-	}
+ //    register(): void {
+ //    	if (this.registerForm.dirty && this.registerForm.valid) {
+ //    		console.log(this.registerForm.value)
+	// 	  	this.userService.create(this.registerForm.value)
+	// 	    .then(user => {
+	// 	    	this.router.navigate(['/login']);
+	// 	      	// this.users.push(user);
+	// 	    });
+	// 	  	// console.log(this.userService.getAll())
+	// 	}
+	// }
+	 register() {
+        this.userService.create(this.registerForm.value)
+            .subscribe(
+                data => {
+                	console.log('qqqq')
+                    this.router.navigate(['/login']);
+                },
+                error => {
+                	console.log(error)
+                });
+    }
 }
