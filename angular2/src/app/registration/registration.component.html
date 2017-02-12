@@ -1,5 +1,13 @@
 <div class="col-md-6 col-md-offset-3">
     <h2>Register</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger fade in">
+        <ul>
+            <li *ngIf="errorMessage.name">{{errorMessage.name}}</li>
+            <li *ngIf="errorMessage.email">{{errorMessage.email}}</li>
+            <li *ngIf="errorMessage.password">{{errorMessage.password}}</li>
+            <li *ngIf="errorMessage.password_confirmation">{{errorMessage.password_confirmation}}</li>
+        </ul>
+    </div>
     <form [formGroup]="registerForm" name="form" (ngSubmit)="register()">
     <div class="form-group">
             <label for="name">Name</label>
@@ -10,6 +18,7 @@
             <label for="email">Email</label>
             <input formControlName="email" type="text" class="form-control">
             <control-messages [control]="registerForm.controls.email"></control-messages>
+            <p style="color:red" *ngIf="registerForm.controls.email.touched && registerForm.controls.email.errors?.email">Email is not valid</p>
         </div>
         <div class="form-group">
             <label for="password">Password</label>

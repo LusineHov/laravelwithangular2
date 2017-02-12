@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
-import { Card }                from '../_models/card';
+import { Card } from '../_models/card';
 import { CardService } from '../_services/card.service';
-import { Location }               from '@angular/common';
+import { Location } from '@angular/common';
+
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -14,6 +14,10 @@ import 'rxjs/add/operator/switchMap';
 })
 export class CardComponent implements OnInit {
 	card: Card;
+	errorMessage: string;
+	errorMessageforUpdate: string;
+	categoryname: number;
+	categories: any = [];
 
   	constructor(private cardService: CardService,
   		private route: ActivatedRoute,
@@ -22,15 +26,32 @@ export class CardComponent implements OnInit {
 
 	ngOnInit() {
     	this.route.params
-      		.switchMap((params: Params) => this.cardService.getCard(+params['id']))
-      		.subscribe(card => this.card = card);
+      		.switchMap((params: Params) => this.cardService.show(+params['id']))
+      		.subscribe(
+      			data => {
+      				this.card = <any>data.post;
+      				if(this.card == undefined){
+      					this.goBack();
+      				} 
+      				this.categoryname = data.categoryname;               
+      				this.categories = data.categories;               
+      				console.log(data);
+      			},
+      			error => {
+      				this.errorMessage = <any>error;
+      			});
 	}
 
 	save(): void {
-		if(localStorage.getItem("currentUser") == `"${this.card.user_id}"`){
-		    this.cardService.update(this.card)
-		    	.then(() => this.goBack());
-	    }
+		this.card.category_id = this.categoryname;
+	    this.cardService.update(this.card)
+	    	.subscribe(
+                data => {
+                    this.goBack();
+                },
+                error => {
+                	this.errorMessageforUpdate = <any>error;
+                });
 	}
 
 	goBack(): void {

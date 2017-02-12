@@ -14,13 +14,12 @@ class RegisterController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6|confirmed'
         ]);
 
         $request->merge(['password' => bcrypt($request->password)]);
-        
         $user = User::create($request->all());
 
-        return response("Registration complete!",201);
+        return response($user,201);
     }
 }

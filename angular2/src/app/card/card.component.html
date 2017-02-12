@@ -1,4 +1,11 @@
 <div *ngIf="card">
+  <div *ngIf="errorMessageforUpdate" class="alert alert-danger fade in">
+    <ul>
+        <li *ngIf="errorMessageforUpdate.title">{{errorMessageforUpdate.title}}</li>
+        <li *ngIf="errorMessageforUpdate.content">{{errorMessageforUpdate.content}}</li>
+        <li *ngIf="errorMessageforUpdate.category_id">{{errorMessageforUpdate.category_id}}</li>
+    </ul>
+  </div>
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
   			<h2>{{card.title}} details!</h2>
@@ -6,21 +13,26 @@
   	</div>
   	<div class="row">
   		<div class="col-md-3 col-md-offset-1">
-    		<label>ID: </label>{{card.id}}
-    	</div>
-    </div>
-  	<div class="row">
-  		<div class="col-md-3 col-md-offset-1">
     		<label>Title: </label>
-    		<input [(ngModel)]="card.title">
+    		<input class="form-control" [(ngModel)]="card.title">
    		</div>
    	</div>
    	<div class="row">
   		<div class="col-md-3 col-md-offset-1">
-	    	<label>Type: </label>
-	    	<input [(ngModel)]="card.type">
+	    	<label>Content: </label>
+	    	<input class="form-control" [(ngModel)]="card.content">
 	    </div>
    	</div>
+    <div class="row">
+      <div class="col-md-3 col-md-offset-1">
+        <label>Type: </label>
+        <select class="form-control" [(ngModel)]="categoryname">
+            <option *ngFor="let category of categories" [value]="category.name">  
+            {{category.name}}
+            </option>
+        </select>
+      </div>
+    </div>
    	<div class="row">
   		<div class="col-md-3 col-md-offset-2">
   			<button class="btn btn-primary" (click)="save()">Save</button>

@@ -15,11 +15,13 @@ use Illuminate\Contracts\Auth\Guard;
 use Session;
 use File;
 use Image; 
+use Auth;
 
 class PostController extends Controller{
     public function __construct()
     {
-       $this->middleware('auth');
+       // $this->middleware('auth:api');
+        // Auth::guard('api')->user();
     }
 
     /**
@@ -65,7 +67,7 @@ class PostController extends Controller{
         $category = $categoriesService->getCategoryByName($inputs['category_id']);
         $category_id = $category->id;
         //$category_id = DB::table('categories')->where('name', $inputs['category_id'])->first()->id;
-        $inputs['user_id'] = $auth->user()->id;
+        $inputs['user_id'] = \Auth::guard('api')->user()->id;
         $inputs['category_id'] = $category_id;
         $createpost = $postsService->addPost($inputs);
         //$post->createPost($inputs);
@@ -83,7 +85,7 @@ class PostController extends Controller{
     public function show(PostsServiceInterface $postsService, Guard $auth, $postId)
     {
         $post = $postsService->getPostByID($postId);
-        return response()->json(['post' => $post,'categoryname'=>$post->category->name, 'username'=>$post->user->name, 'authuser' => $auth->user()->id],200);
+        return response()->json(['post' => $post,'categoryname'=>$post->category->name, 'username'=>$post->user->name, 'authuser' => \Auth::guard('api')->user()->id],200);
         //return view('posts.show', compact('post'));
     }
 
@@ -97,7 +99,7 @@ class PostController extends Controller{
     {
         $post = $postsService->getPostByID($postId);
         $categories = $categoriesService->getAllCategories();
-        if($auth->user()->id !== $post->user_id) { 
+        if(\Auth::guard('api')->user()->id !== $post->user_id) { 
             return response()->json(['message' => 'You Don`t Have Permission!']);
         } else {
             //$categories = Category::all();
@@ -145,8 +147,14 @@ class PostController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PostsServiceInterface $postsService, $postId)
     {
-        //
+        $post = $postsService->getPostByID($postId);
+        if(\Auth::guard('api')->user()->id !== $post->user_id) { 
+            return response()->json(['message' => 'You Don`t Have Permission!'],403);
+        } else {
+            $postsService->deletePost($postId);
+            return response()->json(['message' => 'Post has been deleted!'],200);
+        }
     }
 }

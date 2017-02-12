@@ -18,6 +18,10 @@ interface PostsServiceInterface
 	/* add posts*/
 	public function addPost($inputs);
 
+	/* get ID as a parameter*/
+	/* delete post*/
+	public function deletePost($id);
+
 	/* get user_id as a parameter*/
 	/* return user's posts*/
 	public function getAllPostsOfUser($user_id);

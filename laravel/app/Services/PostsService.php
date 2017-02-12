@@ -33,6 +33,11 @@ class PostsService implements PostsServiceInterface{
 		$this->post->createPost($inputs);
 	}
 
+	public function deletePost($id)
+	{
+		return $this->post->find($id)->delete();
+	}
+	
 	public function getAllPostsOfUser($user_id)
 	{
 		return $this->post->where('user_id', $user_id)->get();

@@ -1,9 +1,30 @@
+<div style="padding-top:20px;" class="row">
+	<div class="col-lg-4 col-lg-offset-1">
+    	<div class="input-group">
+      		<input class="form-control" #searchBox (keyup)="search(searchBox.value)" placeholder="Search for...">
+      		<span class="input-group-btn">
+       		<button class="btn btn-default" (click)="go()" type="button">Go!</button>
+      		</span>
+    	</div>
+  	</div>
+</div>
+<ul>
+	<li *ngFor="let item of items | async">{{item.title}}</li>
+</ul>
 <div>
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
 			<h2>Add new card</h2>
 		</div>
 	</div>
+	
+	<div *ngIf="errorMessageforCreate" class="alert alert-danger fade in">
+        <ul>
+            <li *ngIf="errorMessageforCreate.title">{{errorMessageforCreate.title}}</li>
+            <li *ngIf="errorMessageforCreate.content">{{errorMessageforCreate.content}}</li>
+            <li *ngIf="errorMessageforCreate.category_id">{{errorMessageforCreate.category_id}}</li>
+        </ul>
+    </div>
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
 	 		<label>Card Title:</label> <input type="text" class="form-control" name="title" [(ngModel)]="model.title" #title="ngModel" required>
@@ -11,13 +32,18 @@
  	</div>
  	<div class="row">
 	 	<div class="col-md-3 col-md-offset-1">
-	 		<label>Card Content:</label> <input type="text" class="form-control" name="type" [(ngModel)]="model.content" #type="ngModel" required>
+	 		<label>Card Content:</label> <input type="text" class="form-control" name="content" [(ngModel)]="model.content" #content="ngModel" required>
 	 	</div>
  	</div>
  	<div class="row">
 	 	<div class="col-md-3 col-md-offset-1">
-	 		<label>Card Type:</label> <input type="text" class="form-control" name="date" [(ngModel)]="model.category_id" #date="ngModel" required>
-	 	</div>
+	 		<label>Card Category:</label>
+	 		<select class="form-control" [(ngModel)]="model.category_id">
+		        <option *ngFor="let category of categories" [value]="category.name">  
+		        {{category.name}}
+		        </option>
+		    </select>
+	 	</div>	 	
  	</div>
  	<div class="row">
 	 	<div class="col-md-3 col-md-offset-2">
@@ -27,20 +53,29 @@
   		</div>
   	</div>
 </div>
-<!-- <button  class="btn btn-primary" (click)='getCards()'>All cards</button> -->
-<ol>
+
 <div class="row">
 	<div class="col-md-3 col-md-offset-1">
 		<h2>All cards</h2>
 	</div>
 </div>
+<div *ngIf="errorMessageforDelete" class="alert alert-danger fade in">
+    <ul>
+        <li *ngIf="errorMessageforDelete">{{errorMessageforDelete}}</li>
+    </ul>
+</div>
+<div *ngIf="MessageforDelete" class="alert alert-success fade in">
+    <ul>
+        <li *ngIf="MessageforDelete">{{MessageforDelete}}</li>
+    </ul>
+</div>
+<ol>
   <li *ngFor="let card of cards">
-    <span><b><i>Card ID:</i></b> {{card.id}},</span>
     <span><b><i>Card Title:</i></b> {{card.title}},</span>
     <span><b><i>Card Content:</i></b> {{card.content}},</span>
     <span><b><i>Card Type:</i></b> {{card.category_id}}</span>
     <button class="btn btn-danger" (click)="delete(card)">x</button>
-    <button class="btn btn-info" (click)="edit(card)"><a routerLink="../cards/{{card.id}}"> Edit </a></button>
+    <button class="btn btn-info" (click)="edit(card)"><a routerLink="../cards/{{card.id}}/edit"> Edit </a></button>
   </li>
 </ol>
-<p><button (click)="logout()" ><a [routerLink]="['/login']">Logout</a></button></p>
+<p><button (click)="logout()">Logout</button></p>

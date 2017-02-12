@@ -7,4 +7,5 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
+  // myVar = localStorage.getItem('currentUser');
 }

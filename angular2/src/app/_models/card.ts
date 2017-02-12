@@ -1,7 +1,8 @@
 export class Card {
     id: number;
     user_id: number;
+    category_id: number;
     title: string;
-    date: string;
-    type: string;
+    image: string;
+    content: string;
 }

@@ -24,14 +24,21 @@ Route::post('register', 'RegisterController@register');
 Route::post('password/reset', 'SendPasswordResetEmailController@sendemail');
 Route::post('password/reset/{id}', 'PasswordResetController@reset');
 
-Route::resource('home', 'HomeController');
+	Route::group(['middleware' => 'auth:api'], function () {
+		Route::get('logout', 'LogoutController@logout');
+		
+        Route::resource('home', 'HomeController');
 
-Route::resource('about', 'AboutController');
+		Route::resource('about', 'AboutController');
 
-Route::resource('posts', 'PostController');
+		Route::resource('posts', 'PostController');
 
-Route::get('settings/edit', 'SettingController@edit');
-Route::patch('settings', 'SettingController@update');
-Route::get('settings', 'SettingController@index');
-Route::delete('settings', 'SettingController@destroy');
+		Route::get('settings/edit', 'SettingController@edit');
+		Route::patch('settings', 'SettingController@update');
+		Route::get('settings', 'SettingController@index');
+		Route::delete('settings', 'SettingController@destroy');
+
+		Route::post('search', 'SearchController@search');
+    });
+
 });
