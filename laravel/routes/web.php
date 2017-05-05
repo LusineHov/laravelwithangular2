@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Redis;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -9,7 +10,10 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-
+// Route::get('/', function(){
+// 	$redis    = Redis::connection();
+// 	return $redis->get('tutorials');
+// });
 Route::get('/', function () {
     return view('welcome');
 });

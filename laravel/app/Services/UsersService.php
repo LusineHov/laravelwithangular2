@@ -20,4 +20,10 @@ class UsersService implements UsersServiceInterface {
 	{
 		return $this->user->find($id)->delete();
 	}
+
+	public function getAllUsers()
+	{
+		$users = $this->user->all();
+		return $users;
+	}
 }

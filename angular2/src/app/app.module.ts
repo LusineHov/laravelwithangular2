@@ -13,9 +13,11 @@ import { AuthenticationService } from './_services/authentication.service';
 import { UserService } from './_services/user.service';
 import { AuthGuard } from './_guards/auth.guard';
 import { CardService } from './_services/card.service';
+import { SocketsService } from './_services/sockets.service';
 import { CardComponent } from './card/card.component';
 import { ControlMessagesComponent } from './control-messages.component';
 import { ValidationService } from './_services/validation.service';
+import { FilterPipe } from './filter.pipe';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -35,7 +37,8 @@ const appRoutes: Routes = [
     RegistrationComponent,
     DashboardComponent,
     ControlMessagesComponent,
-    CardComponent
+    CardComponent,
+    FilterPipe
   ],
   imports: [    
     RouterModule.forRoot(appRoutes),
@@ -50,6 +53,7 @@ const appRoutes: Routes = [
         AuthenticationService,
         UserService,
         CardService,
+        SocketsService,
         ValidationService],
   bootstrap: [AppComponent]
 })

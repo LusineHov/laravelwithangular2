@@ -29,4 +29,7 @@ interface PostsServiceInterface
 	/* get user_id as a parameter*/
 	/* delete user's posts*/
 	public function deleteAllPostsOfUser($user_id);
+
+	/* return last post*/
+	public function getLastPost();
 } 

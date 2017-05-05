@@ -1,3 +1,15 @@
+<div class="row">
+	<div class="col-md-3 col-md-offset-1">
+		<h2>
+			New posts....
+		</h2>
+		<ul>
+			<li>
+			    {{posts.title}}                
+			</li>
+		</ul>
+	</div>	
+</div>
 <div style="padding-top:20px;" class="row">
 	<div class="col-lg-4 col-lg-offset-1">
     	<div class="input-group">
@@ -57,7 +69,12 @@
 <div class="row">
 	<div class="col-md-3 col-md-offset-1">
 		<h2>All cards</h2>
+		<select [(ngModel)]="term">
+			<option value="title">Filter by title</option>
+			<option value="date">Filter by date</option>
+		</select>
 	</div>
+
 </div>
 <div *ngIf="errorMessageforDelete" class="alert alert-danger fade in">
     <ul>
@@ -69,13 +86,16 @@
         <li *ngIf="MessageforDelete">{{MessageforDelete}}</li>
     </ul>
 </div>
+
 <ol>
-  <li *ngFor="let card of cards">
+  <li *ngFor="let card of cards | filter:term">
     <span><b><i>Card Title:</i></b> {{card.title}},</span>
     <span><b><i>Card Content:</i></b> {{card.content}},</span>
     <span><b><i>Card Type:</i></b> {{card.category_id}}</span>
+    <span><b><i>Date:</i></b> {{card.created_at}}</span>
     <button class="btn btn-danger" (click)="delete(card)">x</button>
     <button class="btn btn-info" (click)="edit(card)"><a routerLink="../cards/{{card.id}}/edit"> Edit </a></button>
   </li>
 </ol>
 <p><button (click)="logout()">Logout</button></p>
+

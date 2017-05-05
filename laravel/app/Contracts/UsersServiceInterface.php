@@ -10,4 +10,7 @@ interface UsersServiceInterface
 	/* get ID as a parameter*/
 	/* delete user*/
 	public function deleteUser($id);
+
+	/* reurns all users*/
+	public function getAllUsers();
 } 

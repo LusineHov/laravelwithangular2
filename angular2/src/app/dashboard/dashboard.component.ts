@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Card } from '../_models/card';
 import { CardService } from '../_services/card.service';
+import { SocketsService } from '../_services/sockets.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { FilterPipe } from '../filter.pipe';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -15,35 +17,53 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  providers: [FilterPipe]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 	private searchTerms = new Subject<string>();
-	items: Observable<Array<string>>;
-	errorMessage: string;
-	errormessage: string;
-	errorMessageforCreate: string;
-	errorMessageforDelete: string;
-	MessageforDelete: string;
-	model: any = {};
-	modal: any = {};
-	cards: Card[] = [];
-	categories: any = [];
+	private items: Observable<Array<string>>;
+	private errorMessage: string;
+	private errormessage: string;
+	private errorMessageforCreate: string;
+	private errorMessageforDelete: string;
+	private MessageforDelete: string;
+	private model: any = {};
+	private modal: any = {};
+	private cards: Card[] = [];
+	private categories: any = [];
+	private connection;
+	private messages:any = {};
+	private posts:any = [];
 
   	constructor(private cardService: CardService,
+  		private socketsService: SocketsService,
   		private authenticationService: AuthenticationService,
   		private router: Router) { }
 
-  	search(term: string): void {
+  	private search(term: string): void {
 	    this.searchTerms.next(term);
 	}
 
-  	ngOnInit() {  		
+  	ngOnInit() {  	
+  		this.connection = this.socketsService.getCards().subscribe(post => {
+	        this.messages = post;
+	        this.posts = this.messages.post;
+	    });
+
   		this.items = this.searchTerms
 		    .debounceTime(300)        
 		    .distinctUntilChanged()   
 		    .switchMap(term => this.cardService.search(term));
-		      
+		   
+		// this.cardService.getAllUsers() 
+		// 	.subscribe(
+  //               data => {
+  //                   console.log(data) 
+  //               },
+  //               error => {
+  //               	this.errorMessage = <any>error;
+  //               }); 
   		this.cardService.getAll()
 	        .subscribe(
                 data => {
@@ -63,7 +83,7 @@ export class DashboardComponent implements OnInit {
 	    
   	}
 
-	delete(card: Card): void {
+	private delete(card: Card): void {
     	this.cardService.delete(card.id)
 	        .subscribe(
 		      	data => {
@@ -83,7 +103,7 @@ export class DashboardComponent implements OnInit {
 		      	});		
   	}
 
-  	add(): void {
+  	private add(): void {
 	    this.cardService.store(this.model)
 	      	.subscribe(
 		      	data => {
@@ -101,7 +121,7 @@ export class DashboardComponent implements OnInit {
 		      	});
 	}
 
-	logout(): void {
+	private logout(): void {
 	    this.authenticationService.logout()
 	      	.subscribe(
 		      	data => {
@@ -111,6 +131,10 @@ export class DashboardComponent implements OnInit {
 		      	error => {
 		      		console.log(error)
 		      	});
+	}
+
+	ngOnDestroy() {
+	    this.connection.unsubscribe();
 	}
 
 }

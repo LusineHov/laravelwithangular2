@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response, URLSearchParams, Jsonp } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Card } from '../_models/card';
+import * as io from 'socket.io-client';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -11,6 +13,24 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class CardService {
     private cardsUrl = 'http://angular.dev/api/posts';
+    private url = 'http://localhost:3000';  
+    private socket;
+    private currentUser:any;
+
+    // getCards() {
+    // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
+    // let observable = new Observable(observer => {
+    //     this.socket = io(this.url, { query: "currentUserID="+this.currentUser.id });
+    //     console.log(this.socket)
+    //     this.socket.on('post', (data) => {
+    //         observer.next(data);    
+    //     });
+    //     return () => {
+    //         this.socket.disconnect();
+    //     };  
+    // })     
+    // return observable;
+    // }  
 
     constructor(private jsonp: Jsonp, private http: Http) { }
 
@@ -19,6 +39,12 @@ export class CardService {
         .map((response: Response) => response.json().posts)
         .catch(this.handleError);
     }
+
+    // getAllUsers() {
+    //     return this.http.get('http://angular.dev/api/users', this.jwt())
+    //     .map((response: Response) => response.json().users)
+    //     .catch(this.handleError);
+    // }
 
     create() {
         const url = `${this.cardsUrl}/create`;

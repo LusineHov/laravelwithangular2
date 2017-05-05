@@ -47,4 +47,9 @@ class PostsService implements PostsServiceInterface{
 	{
     	return  $this->post->where('user_id', $user_id)->delete();
 	}
+
+	public function getLastPost()
+	{
+		return $this->post->orderBy('created_at', 'desc')->first();
+	}
 }

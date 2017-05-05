@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 // CORS
+Route::post('card', 'CardController@store');
+Route::get('users', 'UserController@getusers');
+
 Route::group(['middleware' => 'cors'], function() {
 
 Route::get('/user', function (Request $request) {
@@ -23,6 +26,7 @@ Route::post('login', 'LoginController@login');
 Route::post('register', 'RegisterController@register');
 Route::post('password/reset', 'SendPasswordResetEmailController@sendemail');
 Route::post('password/reset/{id}', 'PasswordResetController@reset');
+
 
 	Route::group(['middleware' => 'auth:api'], function () {
 		Route::get('logout', 'LogoutController@logout');
